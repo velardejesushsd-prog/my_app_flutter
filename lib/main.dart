@@ -4,8 +4,15 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int contador = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +20,23 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(title: Text('Mi primera app')),
         body: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              print('me tocaste');
-            },
-            child: const Text('tocame'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    contador++;
+                  });
+                  print(contador);
+                },
+                child: const Text('tocame'),
+              ),
+              SizedBox(height: 10),
+              Text('La cantidad de veces que hiciste click en el boton es '),
+              SizedBox(height: 10),
+              Text('$contador'),
+            ],
           ),
         ),
       ),
