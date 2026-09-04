@@ -22,79 +22,58 @@ class PantallaPrincipal extends StatefulWidget {
 
 class _PantallaPrincipalState extends State<PantallaPrincipal> {
   int contador = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Mi primera app')),
-        body: Center(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      contador++;
-                    });
-                    print(contador);
-                  },
-                  child: const Text('tocame'),
-                ),
-                SizedBox(height: 10),
-                Text('La cantidad de veces que hiciste click en el boton es '),
-                SizedBox(height: 10),
-                Text('$contador'),
-
-                SizedBox(height: 15),
-
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SegundaPantalla(),
-                      ),
-                    );
-                  },
-                  child: Text('Navegar a la segunda pantalla'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SegundaPantalla extends StatelessWidget {
-  const SegundaPantalla({super.key});
+  List<String> listaDeTareas = [
+    'comprar pan ',
+    'estudiar flutter',
+    'realizar mis tareas',
+  ];
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Segunda pantalla')),
-      body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Volver a la pantalla principal'),
-              ),
-            ],
+      appBar: AppBar(title: Text('Mi primera app')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      hintText: 'Escribí una nueva tarea',
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      listaDeTareas.add(controller.text);
+                      controller.clear();
+                    });
+                  },
+                  child: const Text('Agregar'),
+                ),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListView(
+                children: listaDeTareas
+                    .map((tarea) => ListTile(title: Text(tarea)))
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
